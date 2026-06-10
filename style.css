@@ -1,49 +1,200 @@
-body{
+*{
     margin:0;
-    font-family:Arial, Helvetica, sans-serif;
-    background:linear-gradient(135deg,#4CAF50,#8BC34A);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
+    padding:0;
+    box-sizing:border-box;
 }
 
-.container{
-    background:white;
-    width:80%;
-    max-width:700px;
-    padding:30px;
-    border-radius:15px;
+body{
+    background:#222;
+    font-family:Arial, sans-serif;
     text-align:center;
-    box-shadow:0 0 20px rgba(0,0,0,.2);
+    color:white;
 }
 
 h1{
-    color:#2E7D32;
+    margin:15px 0;
+}
+
+#hud{
+    margin-bottom:15px;
+}
+
+#barra{
+    width:300px;
+    height:25px;
+    background:white;
+    border:2px solid black;
+    margin:10px auto;
+}
+
+#energia{
+    width:50%;
+    height:100%;
+    background:limegreen;
+}
+
+#game{
+    width:1000px;
+    height:600px;
+    margin:auto;
+    position:relative;
+    overflow:hidden;
+    border:5px solid #111;
+
+    background:linear-gradient(
+        to bottom,
+        #6db6ff 0%,
+        #87ceeb 60%,
+        #9dd7ff 100%
+    );
+}
+
+/* Sol */
+
+#sol{
+    position:absolute;
+    top:40px;
+    right:80px;
+
+    width:80px;
+    height:80px;
+
+    background:#ffeb3b;
+    border-radius:50%;
+
+    box-shadow:0 0 50px #ffeb3b;
+}
+
+/* Nuvens */
+
+.nuvem{
+    position:absolute;
+
+    width:120px;
+    height:40px;
+
+    background:white;
+    border-radius:20px;
+}
+
+/* Grama */
+
+#grama{
+    position:absolute;
+    bottom:180px;
+    width:100%;
+    height:30px;
+
+    background:
+    repeating-linear-gradient(
+        90deg,
+        #3cb043 0px,
+        #3cb043 32px,
+        #2e8b3c 32px,
+        #2e8b3c 64px
+    );
+}
+
+/* Terra */
+
+#terra{
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:180px;
+
+    background:
+    repeating-linear-gradient(
+        90deg,
+        #7b4f28 0px,
+        #7b4f28 32px,
+        #6a4120 32px,
+        #6a4120 64px
+    );
+}
+
+/* Árvores */
+
+.arvore{
+    position:absolute;
+    bottom:210px;
+    width:30px;
+    height:120px;
+    background:#7b4f28;
+}
+
+.arvore::after{
+    content:"";
+    position:absolute;
+    left:-35px;
+    top:-60px;
+
+    width:100px;
+    height:80px;
+
+    background:#2fa84f;
+    border-radius:10px;
+}
+
+/* Personagem */
+
+#player{
+    width:48px;
+    height:64px;
+
+    position:absolute;
+    left:50px;
+    top:350px;
+
+    background:
+    linear-gradient(
+        #4caf50 0 30%,
+        #2196f3 30% 70%,
+        #5d4037 70%
+    );
+
+    border:2px solid black;
+    z-index:100;
+}
+
+/* Lixos */
+
+.lixo{
+    width:35px;
+    height:35px;
+
+    background:#444;
+    border:2px solid black;
+
+    position:absolute;
+    border-radius:5px;
+}
+
+/* Quiz */
+
+#quiz{
+    display:none;
+
+    position:fixed;
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%, -50%);
+
+    background:white;
+    color:black;
+
+    padding:30px;
+
+    border-radius:15px;
+
+    box-shadow:0 0 30px black;
 }
 
 button{
-    padding:12px 20px;
+    padding:10px 20px;
     margin:10px;
+    cursor:pointer;
     border:none;
     border-radius:8px;
-    cursor:pointer;
-    background:#4CAF50;
-    color:white;
-    font-size:16px;
-}
-
-button:hover{
-    background:#388E3C;
-}
-
-.oculto{
-    display:none;
-}
-
-img{
-    width:100%;
-    max-width:400px;
-    border-radius:10px;
-    margin:20px 0;
 }
