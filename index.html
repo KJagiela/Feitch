@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoQuiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>🌎 EcoQuiz</h1>
+
+        <div id="inicio">
+            <h2>Escolha seu nível</h2>
+
+            <button onclick="iniciarQuiz('crianca')">
+                Anos Iniciais
+            </button>
+
+            <button onclick="iniciarQuiz('fundamental')">
+                Ensino Fundamental
+            </button>
+
+            <button onclick="iniciarQuiz('medio')">
+                Ensino Médio
+            </button>
+        </div>
+
+        <div id="quiz" class="oculto">
+            <h2 id="pergunta"></h2>
+
+            <div class="botoes">
+                <button id="opcao1"></button>
+                <button id="opcao2"></button>
+            </div>
+        </div>
+
+        <div id="resultado" class="oculto">
+            <h2 id="tituloResultado"></h2>
+            <img id="imagemResultado" src="" alt="">
+            <p id="textoResultado"></p>
+
+            <button onclick="location.reload()">
+                Jogar Novamente
+            </button>
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
