@@ -3,59 +3,315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoVerse</title>
+    <title>EcoSort - Recicle o Futuro</title>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- Fonte -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
 </head>
 <body>
 
-    <h1>🌎 EcoVerse - Guardião do Futuro</h1>
+<!-- =================== TELA INICIAL =================== -->
 
-    <div id="hud">
-        <p>Sustentabilidade</p>
+<section id="inicio">
 
-        <div id="barra">
-            <div id="energia"></div>
-        </div>
+    <div class="cardInicio">
 
-        <span id="pontos">50%</span>
-    </div>
+        <h1>♻️ EcoSort</h1>
 
-    <div id="game">
+        <p>
+            Arraste cada lixo para sua lixeira correta antes que o tempo acabe!
+        </p>
 
-        <div id="sol"></div>
+        <input
+        type="text"
+        id="nomeJogador"
+        placeholder="Digite seu nome">
 
-        <div class="nuvem" style="top:80px;left:100px;"></div>
-        <div class="nuvem" style="top:140px;left:500px;"></div>
-
-        <div class="arvore" style="left:180px;"></div>
-        <div class="arvore" style="left:700px;"></div>
-
-        <div id="grama"></div>
-        <div id="terra"></div>
-
-        <div id="player"></div>
-
-        <div class="lixo" style="left:250px;top:360px;"></div>
-        <div class="lixo" style="left:500px;top:330px;"></div>
-        <div class="lixo" style="left:800px;top:380px;"></div>
-
-    </div>
-
-    <div id="quiz">
-
-        <h2 id="pergunta"></h2>
-
-        <button onclick="responder(1)">
-            🌱 Atitude Sustentável
+        <button id="btnJogar">
+            <i class="fa-solid fa-play"></i>
+            Jogar
         </button>
 
-        <button onclick="responder(2)">
-            🏭 Atitude Poluente
+        <button id="btnRanking">
+            <i class="fa-solid fa-trophy"></i>
+            Ranking
         </button>
 
     </div>
 
-    <script src="app.js"></script>
+</section>
+
+<!-- =================== RANKING =================== -->
+
+<section id="rankingTela" class="escondido">
+
+    <div class="cardRanking">
+
+        <h2>🏆 Ranking</h2>
+
+        <ol id="listaRanking">
+
+        </ol>
+
+        <button id="voltarInicio">
+            Voltar
+        </button>
+
+    </div>
+
+</section>
+
+<!-- =================== HUD =================== -->
+
+<section id="jogo" class="escondido">
+
+<div class="hud">
+
+<div class="caixaHUD">
+
+<p>
+
+<i class="fa-solid fa-user"></i>
+
+<span id="hudNome">Jogador</span>
+
+</p>
+
+</div>
+
+<div class="caixaHUD">
+
+<p>
+
+⭐ Pontos
+
+<span id="pontos">
+
+0
+
+</span>
+
+</p>
+
+</div>
+
+<div class="caixaHUD">
+
+<p>
+
+🔥 Combo
+
+<span id="combo">
+
+x1
+
+</span>
+
+</p>
+
+</div>
+
+<div class="caixaHUD">
+
+<p>
+
+⏳
+
+<span id="tempo">
+
+60
+
+</span>
+
+</p>
+
+</div>
+
+</div>
+
+<!-- Barra -->
+
+<div class="barraTempo">
+
+<div id="barra"></div>
+
+</div>
+
+<!-- Área principal -->
+
+<div class="areaJogo">
+
+<!-- Lixo -->
+
+<div id="lixoAtual" draggable="true">
+
+🍌
+
+</div>
+
+<div id="lixeiras">
+
+<div
+class="lixeira azul"
+data-tipo="papel">
+
+🟦
+
+<p>Papel</p>
+
+</div>
+
+<div
+class="lixeira vermelho"
+data-tipo="plastico">
+
+🟥
+
+<p>Plástico</p>
+
+</div>
+
+<div
+class="lixeira verde"
+data-tipo="vidro">
+
+🟩
+
+<p>Vidro</p>
+
+</div>
+
+<div
+class="lixeira amarelo"
+data-tipo="metal">
+
+🟨
+
+<p>Metal</p>
+
+</div>
+
+<div
+class="lixeira marrom"
+data-tipo="organico">
+
+🟫
+
+<p>Orgânico</p>
+
+</div>
+
+<div
+class="lixeira cinza"
+data-tipo="rejeito">
+
+⬜
+
+<p>Rejeito</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section id="fimJogo" class="escondido">
+
+<div class="resultado">
+
+<h1>
+
+🎉 Fim de Jogo
+
+</h1>
+
+<h2 id="nomeFinal">
+
+Jogador
+
+</h2>
+
+<p>
+
+⭐ Pontuação:
+
+<span id="pontuacaoFinal">
+
+0
+
+</span>
+
+</p>
+
+<p>
+
+✅ Acertos:
+
+<span id="acertos">
+
+0
+
+</span>
+
+</p>
+
+<p>
+
+❌ Erros:
+
+<span id="erros">
+
+0
+
+</span>
+
+</p>
+
+<p>
+
+🎯 Precisão:
+
+<span id="precisao">
+
+0%
+
+</span>
+
+</p>
+
+<button id="jogarNovamente">
+
+Jogar Novamente
+
+</button>
+
+</div>
+
+</section>
+
+<div id="particulas"></div>
+
+<div id="mensagemAcerto"></div>
+
+
+<audio id="somAcerto" src="audio/acerto.mp3"></audio>
+
+<audio id="somErro" src="audio/erro.mp3"></audio>
+
+<audio id="musica" src="audio/musica.mp3" loop></audio>
+
+
+<script src="script.js"></script>
 
 </body>
 </html>

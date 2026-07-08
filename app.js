@@ -1,147 +1,274 @@
-const player = document.getElementById("player");
-const lixos = document.querySelectorAll(".lixo");
 
-let x = 50;
-let y = 350;
+const telaInicio = document.getElementById("inicio");
+const telaJogo = document.getElementById("jogo");
+const telaFim = document.getElementById("fimJogo");
+const telaRanking = document.getElementById("rankingTela");
 
-let score = 50;
+const btnJogar = document.getElementById("btnJogar");
+const btnRanking = document.getElementById("btnRanking");
+const voltarInicio = document.getElementById("voltarInicio");
+const jogarNovamente = document.getElementById("jogarNovamente");
 
-const perguntas = [
+const nomeInput = document.getElementById("nomeJogador");
 
-    { pergunta:"Você fecharia a torneira ao escovar os dentes?" },
-    { pergunta:"Você reciclaria o lixo da sua casa?" },
-    { pergunta:"Você plantaria árvores na sua comunidade?" },
-    { pergunta:"Você economizaria energia elétrica?" },
-    { pergunta:"Você usaria bicicleta em trajetos curtos?" },
-    { pergunta:"Você separaria lixo reciclável?" },
-    { pergunta:"Você evitaria desperdício de comida?" },
-    { pergunta:"Você recolheria lixo de um parque?" },
-    { pergunta:"Você reutilizaria materiais?" },
-    { pergunta:"Você ajudaria em projetos ambientais?" }
+const lixoAtual = document.getElementById("lixoAtual");
+
+const pontosHTML = document.getElementById("pontos");
+const tempoHTML = document.getElementById("tempo");
+const comboHTML = document.getElementById("combo");
+const barra = document.getElementById("barra");
+
+const hudNome = document.getElementById("hudNome");
+
+let jogador = "";
+
+let pontos = 0;
+let tempo = 60;
+let combo = 1;
+
+let acertos = 0;
+let erros = 0;
+
+let intervalo;
+
+
+const lixos = [
+
+{
+emoji:"📰",
+tipo:"papel"
+},
+
+{
+emoji:"📦",
+tipo:"papel"
+},
+
+{
+emoji:"🧴",
+tipo:"plastico"
+},
+
+{
+emoji:"🥤",
+tipo:"plastico"
+},
+
+{
+emoji:"🍾",
+tipo:"vidro"
+},
+
+{
+emoji:"🪟",
+tipo:"vidro"
+},
+
+{
+emoji:"🥫",
+tipo:"metal"
+},
+
+{
+emoji:"🔩",
+tipo:"metal"
+},
+
+{
+emoji:"🍌",
+tipo:"organico"
+},
+
+{
+emoji:"🍎",
+tipo:"organico"
+},
+
+{
+emoji:"🚬",
+tipo:"rejeito"
+}
 
 ];
 
-player.style.left = x + "px";
-player.style.top = y + "px";
+let lixoEscolhido;
 
-document.addEventListener("keydown", (e) => {
 
-    switch(e.key.toLowerCase()){
+btnJogar.onclick = ()=>{
 
-        case "w":
-            y -= 15;
-            break;
+if(nomeInput.value.trim()==""){
 
-        case "s":
-            y += 15;
-            break;
+alert("Digite seu nome!");
 
-        case "a":
-            x -= 15;
-            break;
+return;
 
-        case "d":
-            x += 15;
-            break;
+}
 
-        default:
-            return;
-    }
+jogador = nomeInput.value;
 
-    x = Math.max(0, Math.min(x, 950));
-    y = Math.max(0, Math.min(y, 520));
+hudNome.innerHTML = jogador;
 
-    player.style.left = x + "px";
-    player.style.top = y + "px";
+telaInicio.classList.add("escondido");
 
-    verificarColisao();
+telaJogo.classList.remove("escondido");
+
+novoLixo();
+
+iniciarTempo();
+
+}
+
+function novoLixo(){
+
+let sorteio = Math.floor(Math.random()*lixos.length);
+
+lixoEscolhido = lixos[sorteio];
+
+lixoAtual.innerHTML = lixoEscolhido.emoji;
+
+}
+
+lixoAtual.addEventListener("dragstart",(e)=>{
+
+e.dataTransfer.setData("tipo",lixoEscolhido.tipo);
+
 });
 
-function verificarColisao(){
 
-    lixos.forEach(lixo => {
+const lixeiras = document.querySelectorAll(".lixeira");
 
-        if(lixo.style.display === "none") return;
+lixeiras.forEach(lixeira=>{
 
-        const lx = lixo.offsetLeft;
-        const ly = lixo.offsetTop;
+lixeira.addEventListener("dragover",(e)=>{
 
-        if(
-            x < lx + 35 &&
-            x + 48 > lx &&
-            y < ly + 35 &&
-            y + 64 > ly
-        ){
+e.preventDefault();
 
-            lixo.style.display = "none";
+});
 
-            abrirPergunta();
-        }
-    });
+lixeira.addEventListener("drop",(e)=>{
+
+e.preventDefault();
+
+let tipo = e.dataTransfer.getData("tipo");
+
+if(tipo==lixeira.dataset.tipo){
+
+acertou();
+
+}else{
+
+errou();
+
 }
 
-function abrirPergunta(){
+});
 
-    const sorteio =
-    perguntas[Math.floor(Math.random() * perguntas.length)];
+});
 
-    document.getElementById("pergunta").innerText =
-    sorteio.pergunta;
+function acertou(){
 
-    document.getElementById("quiz").style.display = "block";
+acertos++;
+
+combo++;
+
+pontos += 100*combo;
+
+pontosHTML.innerHTML = pontos;
+
+comboHTML.innerHTML = "x"+combo;
+
+novoLixo();
+
 }
 
-function responder(valor){
+function errou(){
 
-    document.getElementById("quiz").style.display = "none";
+erros++;
 
-    switch(valor){
+combo=1;
 
-        case 1:
-            score += 10;
-            break;
+pontos-=50;
 
-        case 2:
-            score -= 10;
-            break;
-    }
+if(pontos<0){
 
-    if(score > 100) score = 100;
-    if(score < 0) score = 0;
+pontos=0;
 
-    atualizarMundo();
 }
 
-function atualizarMundo(){
+pontosHTML.innerHTML=pontos;
 
-    document.getElementById("energia").style.width =
-    score + "%";
+comboHTML.innerHTML="x1";
 
-    document.getElementById("pontos").innerText =
-    score + "%";
-
-    const game = document.getElementById("game");
-
-    switch(true){
-
-        case score >= 80:
-            game.style.filter = "saturate(1.3)";
-            break;
-
-        case score >= 50:
-            game.style.filter = "saturate(0.9)";
-            break;
-
-        default:
-            game.style.filter = "grayscale(0.8)";
-    }
-
-    if(score === 100){
-
-        setTimeout(() => {
-
-            alert("🏆 Você salvou o planeta!");
-
-        }, 300);
-    }
 }
+
+function iniciarTempo(){
+
+intervalo=setInterval(()=>{
+
+tempo--;
+
+tempoHTML.innerHTML=tempo;
+
+barra.style.width=(tempo/60*100)+"%";
+
+if(tempo<=0){
+
+fim();
+
+}
+
+},1000);
+
+}
+
+function fim(){
+
+clearInterval(intervalo);
+
+telaJogo.classList.add("escondido");
+
+telaFim.classList.remove("escondido");
+
+document.getElementById("nomeFinal").innerHTML=jogador;
+
+document.getElementById("pontuacaoFinal").innerHTML=pontos;
+
+document.getElementById("acertos").innerHTML=acertos;
+
+document.getElementById("erros").innerHTML=erros;
+
+let precisao=0;
+
+if(acertos+erros>0){
+
+precisao=Math.round(acertos/(acertos+erros)*100);
+
+}
+
+document.getElementById("precisao").innerHTML=precisao+"%";
+
+}
+
+
+jogarNovamente.onclick=()=>{
+
+location.reload();
+
+}
+
+btnRanking.onclick=()=>{
+
+telaInicio.classList.add("escondido");
+
+telaRanking.classList.remove("escondido");
+
+}
+
+voltarInicio.onclick=()=>{
+
+telaRanking.classList.add("escondido");
+
+telaInicio.classList.remove("escondido");
+
+}
+

@@ -2,199 +2,915 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
 }
 
 body{
-    background:#222;
-    font-family:Arial, sans-serif;
-    text-align:center;
+    overflow:hidden;
+    background:#08130b;
     color:white;
 }
 
-h1{
-    margin:15px 0;
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+    radial-gradient(circle at 20% 20%,rgba(0,255,150,.15),transparent 25%),
+    radial-gradient(circle at 80% 80%,rgba(0,180,255,.12),transparent 30%),
+    radial-gradient(circle at 60% 30%,rgba(255,255,255,.05),transparent 35%);
+    animation:fundo 10s infinite alternate;
+    z-index:-2;
 }
 
-#hud{
-    margin-bottom:15px;
+@keyframes fundo{
+
+0%{
+transform:scale(1);
+}
+
+100%{
+transform:scale(1.1);
+}
+
+}
+
+
+section{
+
+width:100%;
+height:100vh;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+}
+
+.escondido{
+
+display:none;
+
+}
+
+
+.cardInicio{
+
+width:500px;
+
+padding:40px;
+
+border-radius:20px;
+
+background:rgba(0,0,0,.45);
+
+backdrop-filter:blur(10px);
+
+box-shadow:0 0 30px rgba(0,255,120,.3);
+
+text-align:center;
+
+}
+
+.cardInicio h1{
+
+font-size:55px;
+
+margin-bottom:15px;
+
+color:#57ff8d;
+
+}
+
+.cardInicio p{
+
+margin-bottom:30px;
+
+font-size:18px;
+
+}
+
+
+
+#nomeJogador{
+
+width:100%;
+
+padding:16px;
+
+font-size:18px;
+
+border:none;
+
+outline:none;
+
+border-radius:10px;
+
+margin-bottom:20px;
+
+background:#1b1b1b;
+
+color:white;
+
+transition:.3s;
+
+}
+
+#nomeJogador:focus{
+
+box-shadow:0 0 20px #44ff99;
+
+}
+
+
+button{
+
+width:100%;
+
+padding:16px;
+
+margin-top:12px;
+
+border:none;
+
+border-radius:10px;
+
+font-size:18px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+#btnJogar{
+
+background:#2ecc71;
+
+color:white;
+
+}
+
+#btnJogar:hover{
+
+transform:scale(1.05);
+
+box-shadow:0 0 20px #2ecc71;
+
+}
+
+#btnRanking{
+
+background:#3498db;
+
+color:white;
+
+}
+
+#btnRanking:hover{
+
+transform:scale(1.05);
+
+box-shadow:0 0 20px #3498db;
+
+}
+
+
+.hud{
+
+position:absolute;
+
+top:20px;
+
+left:50%;
+
+transform:translateX(-50%);
+
+display:flex;
+
+gap:15px;
+
+}
+
+.caixaHUD{
+
+background:rgba(0,0,0,.5);
+
+padding:15px 25px;
+
+border-radius:12px;
+
+font-size:18px;
+
+box-shadow:0 0 15px rgba(255,255,255,.15);
+
+}
+
+
+
+.barraTempo{
+
+position:absolute;
+
+top:100px;
+
+left:50%;
+
+transform:translateX(-50%);
+
+width:70%;
+
+height:18px;
+
+background:#222;
+
+border-radius:50px;
+
+overflow:hidden;
+
 }
 
 #barra{
-    width:300px;
-    height:25px;
-    background:white;
-    border:2px solid black;
-    margin:10px auto;
+
+width:100%;
+
+height:100%;
+
+background:linear-gradient(90deg,#00ff73,#00a2ff);
+
+transition:.3s;
+
 }
 
-#energia{
-    width:50%;
-    height:100%;
-    background:limegreen;
+
+.areaJogo{
+
+width:100%;
+
+height:100%;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+flex-direction:column;
+
 }
 
-#game{
-    width:1000px;
-    height:600px;
-    margin:auto;
-    position:relative;
-    overflow:hidden;
-    border:5px solid #111;
 
-    background:linear-gradient(
-        to bottom,
-        #6db6ff 0%,
-        #87ceeb 60%,
-        #9dd7ff 100%
-    );
+#lixoAtual{
+
+font-size:100px;
+
+cursor:grab;
+
+margin-bottom:70px;
+
+transition:.3s;
+
+user-select:none;
+
 }
 
-/* Sol */
+#lixoAtual:hover{
 
-#sol{
-    position:absolute;
-    top:40px;
-    right:80px;
+transform:scale(1.15) rotate(10deg);
 
-    width:80px;
-    height:80px;
-
-    background:#ffeb3b;
-    border-radius:50%;
-
-    box-shadow:0 0 50px #ffeb3b;
 }
 
-/* Nuvens */
 
-.nuvem{
-    position:absolute;
+#lixeiras{
 
-    width:120px;
-    height:40px;
+display:grid;
 
-    background:white;
+grid-template-columns:repeat(3,180px);
+
+gap:30px;
+
+}
+
+.lixeira{
+
+height:170px;
+
+border-radius:20px;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+flex-direction:column;
+
+font-size:55px;
+
+cursor:pointer;
+
+transition:.35s;
+
+border:4px solid rgba(255,255,255,.15);
+
+}
+
+.lixeira p{
+
+margin-top:10px;
+
+font-size:18px;
+
+font-weight:bold;
+
+}
+
+/* CORES */
+
+.azul{
+
+background:#1e88e5;
+
+}
+
+.vermelho{
+
+background:#e53935;
+
+}
+
+.verde{
+
+background:#43a047;
+
+}
+
+.amarelo{
+
+background:#fdd835;
+
+color:black;
+
+}
+
+.marrom{
+
+background:#6d4c41;
+
+}
+
+.cinza{
+
+background:#757575;
+
+}
+
+/* HOVER */
+
+.lixeira:hover{
+
+transform:translateY(-8px) scale(1.08);
+
+box-shadow:0 0 25px rgba(255,255,255,.35);
+
+}
+
+
+.cardRanking{
+
+    width:500px;
+    max-height:650px;
+
+    background:rgba(0,0,0,.55);
+
+    backdrop-filter:blur(12px);
+
     border-radius:20px;
+
+    padding:35px;
+
+    text-align:center;
+
+    box-shadow:0 0 30px rgba(0,255,120,.3);
+
 }
 
-/* Grama */
+.cardRanking h2{
 
-#grama{
-    position:absolute;
-    bottom:180px;
-    width:100%;
-    height:30px;
+    margin-bottom:25px;
 
-    background:
-    repeating-linear-gradient(
-        90deg,
-        #3cb043 0px,
-        #3cb043 32px,
-        #2e8b3c 32px,
-        #2e8b3c 64px
-    );
+    font-size:38px;
+
+    color:#ffd54f;
+
 }
 
-/* Terra */
+#listaRanking{
 
-#terra{
-    position:absolute;
-    bottom:0;
-    width:100%;
-    height:180px;
+    margin-top:20px;
 
-    background:
-    repeating-linear-gradient(
-        90deg,
-        #7b4f28 0px,
-        #7b4f28 32px,
-        #6a4120 32px,
-        #6a4120 64px
-    );
+    text-align:left;
+
+    padding-left:30px;
+
 }
 
-/* Árvores */
+#listaRanking li{
 
-.arvore{
-    position:absolute;
-    bottom:210px;
-    width:30px;
-    height:120px;
-    background:#7b4f28;
-}
+    background:rgba(255,255,255,.08);
 
-.arvore::after{
-    content:"";
-    position:absolute;
-    left:-35px;
-    top:-60px;
+    padding:15px;
 
-    width:100px;
-    height:80px;
+    margin-bottom:12px;
 
-    background:#2fa84f;
     border-radius:10px;
+
+    font-size:18px;
+
+    transition:.3s;
+
 }
 
-/* Personagem */
+#listaRanking li:hover{
 
-#player{
-    width:48px;
-    height:64px;
+    transform:translateX(8px);
+
+    background:rgba(255,255,255,.15);
+
+}
+
+#voltarInicio{
+
+    margin-top:25px;
+
+    background:#00b894;
+
+    color:white;
+
+}
+
+
+.resultado{
+
+    width:550px;
+
+    background:rgba(0,0,0,.55);
+
+    backdrop-filter:blur(10px);
+
+    padding:40px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    box-shadow:0 0 35px rgba(255,255,255,.15);
+
+}
+
+.resultado h1{
+
+    font-size:48px;
+
+    margin-bottom:20px;
+
+    color:#57ff8d;
+
+}
+
+.resultado h2{
+
+    margin-bottom:30px;
+
+}
+
+.resultado p{
+
+    font-size:22px;
+
+    margin:12px 0;
+
+}
+
+#jogarNovamente{
+
+    margin-top:30px;
+
+    background:#2ecc71;
+
+    color:white;
+
+}
+
+
+#mensagemAcerto{
 
     position:absolute;
-    left:50px;
-    top:350px;
 
-    background:
-    linear-gradient(
-        #4caf50 0 30%,
-        #2196f3 30% 70%,
-        #5d4037 70%
-    );
-
-    border:2px solid black;
-    z-index:100;
-}
-
-/* Lixos */
-
-.lixo{
-    width:35px;
-    height:35px;
-
-    background:#444;
-    border:2px solid black;
-
-    position:absolute;
-    border-radius:5px;
-}
-
-/* Quiz */
-
-#quiz{
-    display:none;
-
-    position:fixed;
-    top:50%;
     left:50%;
 
-    transform:translate(-50%, -50%);
+    top:35%;
 
-    background:white;
-    color:black;
+    transform:translateX(-50%);
 
-    padding:30px;
+    font-size:55px;
 
-    border-radius:15px;
+    font-weight:bold;
 
-    box-shadow:0 0 30px black;
+    color:#00ff88;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    text-shadow:0 0 15px #00ff88;
+
 }
 
-button{
-    padding:10px 20px;
-    margin:10px;
-    cursor:pointer;
-    border:none;
-    border-radius:8px;
+.animarMensagem{
+
+    animation:mensagem 1s ease;
+
+}
+
+@keyframes mensagem{
+
+0%{
+
+opacity:0;
+transform:translate(-50%,50px);
+
+}
+
+20%{
+
+opacity:1;
+
+}
+
+80%{
+
+opacity:1;
+
+}
+
+100%{
+
+opacity:0;
+transform:translate(-50%,-80px);
+
+}
+
+}
+
+
+#particulas{
+
+    position:absolute;
+
+    inset:0;
+
+    overflow:hidden;
+
+    pointer-events:none;
+
+}
+
+.particula{
+
+    position:absolute;
+
+    width:12px;
+
+    height:12px;
+
+    border-radius:50%;
+
+    background:#57ff8d;
+
+    animation:explodir 1s linear forwards;
+
+}
+
+@keyframes explodir{
+
+0%{
+
+opacity:1;
+transform:scale(1);
+
+}
+
+100%{
+
+opacity:0;
+transform:translateY(-150px) scale(.2);
+
+}
+
+}
+
+
+.acertou{
+
+    animation:acerto .4s;
+
+}
+
+@keyframes acerto{
+
+0%{
+
+transform:scale(1);
+
+}
+
+50%{
+
+transform:scale(1.2);
+
+}
+
+100%{
+
+transform:scale(1);
+
+}
+
+}
+
+
+
+.errou{
+
+    animation:erro .4s;
+
+}
+
+@keyframes erro{
+
+0%{
+
+transform:translateX(0);
+
+}
+
+20%{
+
+transform:translateX(-15px);
+
+}
+
+40%{
+
+transform:translateX(15px);
+
+}
+
+60%{
+
+transform:translateX(-15px);
+
+}
+
+80%{
+
+transform:translateX(15px);
+
+}
+
+100%{
+
+transform:translateX(0);
+
+}
+
+}
+
+
+.lixeira::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:20px;
+
+    background:linear-gradient(
+
+        135deg,
+
+        rgba(255,255,255,.3),
+
+        transparent
+
+    );
+
+    opacity:0;
+
+    transition:.4s;
+
+}
+
+.lixeira{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.lixeira:hover::before{
+
+    opacity:1;
+
+}
+
+
+#lixoAtual{
+
+    animation:flutuar 2s infinite ease-in-out;
+
+}
+
+@keyframes flutuar{
+
+0%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(-12px);
+
+}
+
+100%{
+
+transform:translateY(0);
+
+}
+
+}
+
+
+.cardRanking{
+
+overflow-y:auto;
+
+}
+
+
+@media(max-width:900px){
+
+#lixeiras{
+
+grid-template-columns:repeat(2,150px);
+
+gap:20px;
+
+}
+
+.lixeira{
+
+height:150px;
+
+font-size:45px;
+
+}
+
+#lixoAtual{
+
+font-size:80px;
+
+}
+
+.hud{
+
+flex-wrap:wrap;
+
+justify-content:center;
+
+}
+
+}
+
+@media(max-width:600px){
+
+.cardInicio,
+.cardRanking,
+.resultado{
+
+width:92%;
+
+padding:25px;
+
+}
+
+.cardInicio h1{
+
+font-size:38px;
+
+}
+
+#lixeiras{
+
+grid-template-columns:repeat(2,130px);
+
+}
+
+.lixeira{
+
+height:130px;
+
+font-size:38px;
+
+}
+
+.lixeira p{
+
+font-size:14px;
+
+}
+
+#lixoAtual{
+
+font-size:65px;
+
+margin-bottom:40px;
+
+}
+
+.hud{
+
+gap:8px;
+
+}
+
+.caixaHUD{
+
+padding:10px;
+
+font-size:14px;
+
+}
+
+.barraTempo{
+
+width:90%;
+
+}
+
+}
+
+
+::-webkit-scrollbar{
+
+width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:#00ff88;
+
+border-radius:20px;
+
+}
+
+::-webkit-scrollbar-track{
+
+background:#111;
+
+}
+
+/* ===========================================
+   TRANSIÇÕES GERAIS
+=========================================== */
+
+button,
+input,
+.lixeira,
+.caixaHUD{
+
+transition:.3s;
+
+}
+
+
+.cardInicio,
+.cardRanking,
+.resultado{
+
+border:2px solid rgba(255,255,255,.08);
+
 }
