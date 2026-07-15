@@ -1,317 +1,77 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoSort - Recicle o Futuro</title>
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
-
-    <!-- Fonte -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-    <!-- Ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Recicla Já! — separe o lixo antes que o tempo acabe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="app">
 
-<!-- =================== TELA INICIAL =================== -->
+  <!-- ================= TELA LOGIN ================= -->
+  <section id="tela-login" class="placa">
+    <span class="selo">♻️ jogo da coleta seletiva</span>
+    <h1 class="titulo-display">Recicla Já!</h1>
+    <p class="sub">As lixeiras trocam de lugar o tempo todo. Arraste (ou toque) cada item até a lixeira certa antes que o tempo acabe.</p>
 
-<section id="inicio">
+    <label class="campo-label" for="input-nome">Seu nome de jogador</label>
+    <input id="input-nome" type="text" maxlength="18" placeholder="Ex: Léo, Marina..." autocomplete="off">
+    <div id="erro-nome"></div>
 
-    <div class="cardInicio">
+    <div class="legenda-lixeiras" id="legenda-lixeiras"></div>
 
-        <h1>♻️ EcoSort</h1>
+    <button class="btn" id="btn-jogar">Jogar agora</button>
 
-        <p>
-            Arraste cada lixo para sua lixeira correta antes que o tempo acabe!
-        </p>
+    <div class="ranking-mini-toggle">
+      <button class="btn-fantasma" id="btn-ver-ranking">Ver ranking geral</button>
+    </div>
+  </section>
 
-        <input
-        type="text"
-        id="nomeJogador"
-        placeholder="Digite seu nome">
-
-        <button id="btnJogar">
-            <i class="fa-solid fa-play"></i>
-            Jogar
-        </button>
-
-        <button id="btnRanking">
-            <i class="fa-solid fa-trophy"></i>
-            Ranking
-        </button>
-
+  <!-- ================= TELA JOGO ================= -->
+  <section id="tela-jogo">
+    <div class="hud">
+      <div class="hud-item">
+        <div class="rotulo">Jogador</div>
+        <div class="valor" id="hud-nome" style="font-size:15px;">—</div>
+      </div>
+      <div class="hud-item">
+        <div class="rotulo">Pontos</div>
+        <div class="valor" id="hud-pontos">0</div>
+      </div>
+      <div class="hud-item" id="hud-tempo">
+        <div class="rotulo">Tempo</div>
+        <div class="valor" id="hud-tempo-valor">45</div>
+      </div>
     </div>
 
-</section>
+    <div class="campo-jogo" id="campo-jogo">
+      <div class="dica-arraste">arraste o item até a lixeira certa (ou toque nele e depois na lixeira)</div>
+    </div>
+  </section>
 
-<!-- =================== RANKING =================== -->
-
-<section id="rankingTela" class="escondido">
-
-    <div class="cardRanking">
-
-        <h2>🏆 Ranking</h2>
-
-        <ol id="listaRanking">
-
-        </ol>
-
-        <button id="voltarInicio">
-            Voltar
-        </button>
-
+  <!-- ================= TELA FIM ================= -->
+  <section id="tela-fim" class="placa">
+    <div class="resultado">
+      <div class="selo">Tempo esgotado</div>
+      <div class="pontos-finais" id="pontos-finais">0</div>
+      <div class="msg-final" id="msg-final">Boa!</div>
     </div>
 
-</section>
+    <ul class="ranking-lista" id="ranking-lista">
+      <li class="aviso-carregando">Carregando ranking...</li>
+    </ul>
 
-<!-- =================== HUD =================== -->
-
-<section id="jogo" class="escondido">
-
-<div class="hud">
-
-<div class="caixaHUD">
-
-<p>
-
-<i class="fa-solid fa-user"></i>
-
-<span id="hudNome">Jogador</span>
-
-</p>
+    <div class="rodape-btns">
+      <button class="btn" id="btn-jogar-de-novo">Jogar de novo</button>
+      <button class="btn secundario" id="btn-trocar-nome">Trocar de jogador</button>
+    </div>
+  </section>
 
 </div>
-
-<div class="caixaHUD">
-
-<p>
-
-⭐ Pontos
-
-<span id="pontos">
-
-0
-
-</span>
-
-</p>
-
-</div>
-
-<div class="caixaHUD">
-
-<p>
-
-🔥 Combo
-
-<span id="combo">
-
-x1
-
-</span>
-
-</p>
-
-</div>
-
-<div class="caixaHUD">
-
-<p>
-
-⏳
-
-<span id="tempo">
-
-60
-
-</span>
-
-</p>
-
-</div>
-
-</div>
-
-<!-- Barra -->
-
-<div class="barraTempo">
-
-<div id="barra"></div>
-
-</div>
-
-<!-- Área principal -->
-
-<div class="areaJogo">
-
-<!-- Lixo -->
-
-<div id="lixoAtual" draggable="true">
-
-🍌
-
-</div>
-
-<div id="lixeiras">
-
-<div
-class="lixeira azul"
-data-tipo="papel">
-
-🟦
-
-<p>Papel</p>
-
-</div>
-
-<div
-class="lixeira vermelho"
-data-tipo="plastico">
-
-🟥
-
-<p>Plástico</p>
-
-</div>
-
-<div
-class="lixeira verde"
-data-tipo="vidro">
-
-🟩
-
-<p>Vidro</p>
-
-</div>
-
-<div
-class="lixeira amarelo"
-data-tipo="metal">
-
-🟨
-
-<p>Metal</p>
-
-</div>
-
-<div
-class="lixeira marrom"
-data-tipo="organico">
-
-🟫
-
-<p>Orgânico</p>
-
-</div>
-
-<div
-class="lixeira cinza"
-data-tipo="rejeito">
-
-⬜
-
-<p>Rejeito</p>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<section id="fimJogo" class="escondido">
-
-<div class="resultado">
-
-<h1>
-
-🎉 Fim de Jogo
-
-</h1>
-
-<h2 id="nomeFinal">
-
-Jogador
-
-</h2>
-
-<p>
-
-⭐ Pontuação:
-
-<span id="pontuacaoFinal">
-
-0
-
-</span>
-
-</p>
-
-<p>
-
-✅ Acertos:
-
-<span id="acertos">
-
-0
-
-</span>
-
-</p>
-
-<p>
-
-❌ Erros:
-
-<span id="erros">
-
-0
-
-</span>
-
-</p>
-
-<p>
-
-🎯 Precisão:
-
-<span id="precisao">
-
-0%
-
-</span>
-
-</p>
-
-<button id="jogarNovamente">
-
-Jogar Novamente
-
-</button>
-
-</div>
-
-</section>
-
-<div id="particulas"></div>
-
-<div id="mensagemAcerto"></div>
-
-
-<audio id="somAcerto" src="audio/acerto.mp3"></audio>
-
-<audio id="somErro" src="audio/erro.mp3"></audio>
-
-<audio id="musica" src="audio/musica.mp3" loop></audio>
-
 
 <script src="script.js"></script>
-
 </body>
 </html>
