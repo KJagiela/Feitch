@@ -348,54 +348,50 @@
   }
 
   async function salvarPontuacao(nome, pontuacao){
-    try{
-      let lista = [];
-      try{
-        const atual = await window.storage.get(CHAVE_RANKING, true);
-        if(atual && atual.value) lista = JSON.parse(atual.value);
-      }catch(e){ lista = []; }
+  try{
+    let lista = [];
+    const bruto = localStorage.getItem(CHAVE_RANKING);
+    if(bruto) lista = JSON.parse(bruto);
 
-      lista.push({ nome, pontos: pontuacao, data: new Date().toISOString() });
-      lista.sort((a,b)=> b.pontos - a.pontos);
-      lista = lista.slice(0, 20);
+    lista.push({ nome, pontos: pontuacao, data: new Date().toISOString() });
+    lista.sort((a,b)=> b.pontos - a.pontos);
+    lista = lista.slice(0, 20);
 
-      await window.storage.set(CHAVE_RANKING, JSON.stringify(lista), true);
-    }catch(e){
-      console.error("Não foi possível salvar o ranking:", e);
-    }
+    localStorage.setItem(CHAVE_RANKING, JSON.stringify(lista));
+  }catch(e){
+    console.error("Não foi possível salvar o ranking:", e);
   }
+}
 
   async function carregarRanking(pontuacaoDestaque){
-    const ul = $("#ranking-lista");
-    ul.innerHTML = `<li class="aviso-carregando">Carregando ranking...</li>`;
-    try{
-      let lista = [];
-      try{
-        const atual = await window.storage.get(CHAVE_RANKING, true);
-        if(atual && atual.value) lista = JSON.parse(atual.value);
-      }catch(e){ lista = []; }
+  const ul = $("#ranking-lista");
+  ul.innerHTML = `<li class="aviso-carregando">Carregando ranking...</li>`;
+  try{
+    let lista = [];
+    const bruto = localStorage.getItem(CHAVE_RANKING);
+    if(bruto) lista = JSON.parse(bruto);
 
-      if(!lista.length){
-        ul.innerHTML = `<li class="aviso-carregando">Ainda não há ninguém no ranking. Seja o primeiro!</li>`;
-        return;
-      }
-
-      ul.innerHTML = "";
-      lista.forEach((item, i)=>{
-        const li = document.createElement("li");
-        const destaque = (pontuacaoDestaque !== undefined && item.nome === nomeJogador && item.pontos === pontuacaoDestaque);
-        if(destaque) li.classList.add("voce");
-        li.innerHTML = `
-          <span class="rk-pos">${i+1}º</span>
-          <span class="rk-nome">${escaparHTML(item.nome)}</span>
-          <span class="rk-pontos">${item.pontos}</span>
-        `;
-        ul.appendChild(li);
-      });
-    }catch(e){
-      ul.innerHTML = `<li class="aviso-carregando">Não foi possível carregar o ranking agora.</li>`;
+    if(!lista.length){
+      ul.innerHTML = `<li class="aviso-carregando">Ainda não há ninguém no ranking. Seja o primeiro!</li>`;
+      return;
     }
+
+    ul.innerHTML = "";
+    lista.forEach((item, i)=>{
+      const li = document.createElement("li");
+      const destaque = (pontuacaoDestaque !== undefined && item.nome === nomeJogador && item.pontos === pontuacaoDestaque);
+      if(destaque) li.classList.add("voce");
+      li.innerHTML = `
+        <span class="rk-pos">${i+1}º</span>
+        <span class="rk-nome">${escaparHTML(item.nome)}</span>
+        <span class="rk-pontos">${item.pontos}</span>
+      `;
+      ul.appendChild(li);
+    });
+  }catch(e){
+    ul.innerHTML = `<li class="aviso-carregando">Não foi possível carregar o ranking agora.</li>`;
   }
+}
 
   function escaparHTML(str){
     const div = document.createElement("div");
